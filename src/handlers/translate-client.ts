@@ -23,6 +23,8 @@ export async function translateWord(text: string): Promise<TranslateResult | nul
       headers: {
         'Authorization': `Bearer ${TRANSLATE_API_KEY}`,
         'Content-Type': 'application/json',
+        'CF-Access-Client-Id': '28fb1d41474223550480a99ddded7ad3.access',
+        'CF-Access-Client-Secret': '054b5f96910a1a0f491b38a700d95089c651be4fed75af48948bfa12ee1bf0c9',
       },
       body: JSON.stringify({
         text,
