@@ -1,0 +1,6 @@
+{
+  "name": "cf-vocab-worker",
+  "version": "1.0.0",
+  "description": "Japanese vocabulary learning platform",
+  "private": true
+}

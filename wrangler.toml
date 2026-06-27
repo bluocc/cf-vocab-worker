@@ -1,0 +1,9 @@
+name = "cf-vocab-worker"
+main = "src/index.ts"
+compatibility_date = "2024-06-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "vocab-db"
+database_id = "a679fcd5-840b-4fea-b52a-5b573b256b84"
