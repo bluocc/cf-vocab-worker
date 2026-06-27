@@ -4,6 +4,7 @@ export function getPageHtml(): string {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="https://cdn.luosc.org/data/svg/ck.svg">
     <title>日语学习助手</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
