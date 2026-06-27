@@ -1,5 +1,11 @@
 const TRANSLATE_API = 'https://translate.luosc.org/api/aiTranslate';
-const TRANSLATE_API_KEY = 'tk_5ae1c489c33c798067191925d5e7214ebd1a5904784b5180ff0ce40a269f90dd';
+
+export interface Env {
+  DB: D1Database;
+  TRANSLATE_API_KEY: string;
+  CF_ACCESS_CLIENT_ID: string;
+  CF_ACCESS_CLIENT_SECRET: string;
+}
 
 export interface TranslateResult {
   translated_text: string;
@@ -16,15 +22,15 @@ export interface TranslateResult {
   dict_url: string;
 }
 
-export async function translateWord(text: string): Promise<TranslateResult | null> {
+export async function translateWord(text: string, env: Env): Promise<TranslateResult | null> {
   try {
     const response = await fetch(TRANSLATE_API, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${TRANSLATE_API_KEY}`,
+        'Authorization': `Bearer ${env.TRANSLATE_API_KEY}`,
         'Content-Type': 'application/json',
-        'CF-Access-Client-Id': '28fb1d41474223550480a99ddded7ad3.access',
-        'CF-Access-Client-Secret': '054b5f96910a1a0f491b38a700d95089c651be4fed75af48948bfa12ee1bf0c9',
+        'CF-Access-Client-Id': env.CF_ACCESS_CLIENT_ID,
+        'CF-Access-Client-Secret': env.CF_ACCESS_CLIENT_SECRET,
       },
       body: JSON.stringify({
         text,

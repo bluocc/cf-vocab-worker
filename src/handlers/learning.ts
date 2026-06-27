@@ -1,4 +1,4 @@
-import { translateWord, parseJlptLevel } from './translate-client';
+import { translateWord, parseJlptLevel, Env } from './translate-client';
 
 // 获取未学习卡牌
 export async function handleLearningCards(
@@ -53,7 +53,7 @@ export async function handleLearningAdd(
     }
 
     // 调用翻译服务
-    const translateResult = await translateWord(word);
+    const translateResult = await translateWord(word, env);
 
     // 保存到学习表
     const wordTypeNum = word_type === 'vocab' ? 2 : 3;
@@ -118,7 +118,7 @@ export async function handleLearningManual(
     }
 
     // 调用翻译服务
-    const translateResult = await translateWord(word);
+    const translateResult = await translateWord(word, env);
     if (!translateResult) {
       return new Response(JSON.stringify({ error: 'Translation failed' }), {
         status: 400,
