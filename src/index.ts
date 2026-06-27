@@ -46,6 +46,9 @@ async function handleApi(request: Request, env: Env, path: string, corsHeaders: 
   }
 
   // Learning routes
+  if (path === '/api/learning/cards' && request.method === 'GET') {
+    return await handleLearningCards(request, env, headers);
+  }
   if (path === '/api/learning/add' && request.method === 'POST') {
     return await handleLearningAdd(request, env, headers);
   }
@@ -75,5 +78,5 @@ async function handleApi(request: Request, env: Env, path: string, corsHeaders: 
 }
 
 import { handleLibraryRandom } from './handlers/library';
-import { handleLearningAdd, handleLearningManual, handleLearningList, handleLearningStatus, handleLearningDetail, handleLearningDelete } from './handlers/learning';
+import { handleLearningCards, handleLearningAdd, handleLearningManual, handleLearningList, handleLearningStatus, handleLearningDetail, handleLearningDelete } from './handlers/learning';
 import { getPageHtml } from './pages/page';

@@ -1,5 +1,40 @@
 import { translateWord, parseJlptLevel } from './translate-client';
 
+// 获取未学习卡牌
+export async function handleLearningCards(
+  request: Request,
+  env: { DB: D1Database },
+  headers: Record<string, string>
+): Promise<Response> {
+  try {
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get('page') || '1');
+    const pageSize = 10;
+    const offset = (page - 1) * pageSize;
+
+    const countResult = await env.DB.prepare(
+      'SELECT COUNT(*) as total FROM learning_words WHERE is_learned = 0'
+    ).first<{ total: number }>();
+    const total = countResult?.total || 0;
+
+    const result = await env.DB.prepare(
+      'SELECT * FROM learning_words WHERE is_learned = 0 ORDER BY created_at DESC LIMIT ? OFFSET ?'
+    ).bind(pageSize, offset).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results,
+      pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
+    }), { headers });
+  } catch (error) {
+    console.error('Learning cards error:', error);
+    return new Response(JSON.stringify({ error: 'Failed to get cards' }), {
+      status: 500,
+      headers,
+    });
+  }
+}
+
 // 从词库添加
 export async function handleLearningAdd(
   request: Request,
@@ -204,9 +239,16 @@ export async function handleLearningStatus(
 ): Promise<Response> {
   try {
     const body = await request.json<{ is_learned: number }>();
-    await env.DB.prepare(
-      'UPDATE learning_words SET is_learned = ? WHERE id = ?'
-    ).bind(body.is_learned, id).run();
+    if (body.is_learned === 0) {
+      // 设置为未学习时更新修改时间
+      await env.DB.prepare(
+        'UPDATE learning_words SET is_learned = 0, created_at = CURRENT_TIMESTAMP WHERE id = ?'
+      ).bind(id).run();
+    } else {
+      await env.DB.prepare(
+        'UPDATE learning_words SET is_learned = 1 WHERE id = ?'
+      ).bind(id).run();
+    }
 
     return new Response(JSON.stringify({ success: true }), { headers });
   } catch (error) {
