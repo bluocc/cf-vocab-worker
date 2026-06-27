@@ -29,8 +29,6 @@ export function getPageHtml(): string {
         .btn-default { background: #f0f0f0; color: #333; border: 1px solid #ddd; }
         .btn-sm { padding: 4px 10px; font-size: 12px; }
         .btn-lg { padding: 12px 24px; font-size: 16px; }
-
-        /* Card Learning */
         .card-area { display: flex; align-items: center; justify-content: center; gap: 16px; min-height: 400px; }
         .card-arrow { font-size: 40px; cursor: pointer; color: #999; padding: 10px; user-select: none; }
         .card-arrow:hover { color: #4a90d9; }
@@ -47,15 +45,12 @@ export function getPageHtml(): string {
         .card-count { text-align: center; color: #999; font-size: 13px; margin-bottom: 8px; }
         .card-page { text-align: center; color: #999; font-size: 13px; margin-top: 8px; }
         .no-cards { text-align: center; color: #999; font-size: 16px; padding: 80px; }
-
         .card-detail { font-size: 14px; line-height: 1.8; width: 100%; }
         .card-detail .row { display: flex; border-bottom: 1px solid #f0f0f0; padding: 6px 0; }
         .card-detail .label { width: 80px; font-weight: 600; color: #666; flex-shrink: 0; }
         .card-detail .value { flex: 1; color: #333; word-break: break-word; }
         .card-back-actions { margin-top: 16px; width: 100%; display: flex; gap: 10px; }
         .card-back-actions .btn { flex: 1; }
-
-        /* Table */
         table { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; border-radius: 8px; overflow: hidden; }
         th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #f0f0f0; }
         th { background: #fafafa; color: #666; font-weight: 600; font-size: 12px; }
@@ -68,8 +63,6 @@ export function getPageHtml(): string {
         .badge-kanji { background: #fff7e6; color: #fa8c16; }
         .badge-manual { background: #f9f0ff; color: #722ed1; }
         .pagination { display: flex; justify-content: center; gap: 10px; margin-top: 16px; }
-
-        /* Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; }
         .modal-content { background: #fff; margin: 60px auto; padding: 24px; border-radius: 12px; max-width: 560px; max-height: 80vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; position: sticky; top: 0; background: #fff; z-index: 10; padding-bottom: 10px; border-bottom: 1px solid #eee; }
@@ -80,8 +73,6 @@ export function getPageHtml(): string {
         .detail-table .label { width: 110px; font-weight: 600; color: #666; background: #fafafa; }
         .audio-btn { background: none; border: 1px solid #4a90d9; color: #4a90d9; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
         .audio-btn:hover { background: #4a90d9; color: #fff; }
-
-        /* Add vocab page */
         .add-section { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
         .add-section h3 { margin-bottom: 15px; color: #555; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .add-section .form-group { margin-bottom: 12px; }
@@ -97,8 +88,9 @@ export function getPageHtml(): string {
         .toast { position: fixed; top: 20px; right: 20px; padding: 12px 24px; border-radius: 8px; color: white; z-index: 2000; display: none; font-size: 14px; }
         .toast-success { background: #52c41a; }
         .toast-error { background: #ff4d4f; }
-
-        /* Mobile */
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 3000; justify-content: center; align-items: center; }
+        .loading-overlay.active { display: flex; }
+        .loading-text { color: white; font-size: 18px; background: rgba(0,0,0,0.7); padding: 16px 32px; border-radius: 8px; }
         @media (max-width: 600px) {
             .container { padding: 12px; }
             .card-wrapper { max-width: 100%; }
@@ -118,14 +110,12 @@ export function getPageHtml(): string {
             <div class="tab" data-tab="add">添加词汇</div>
         </div>
 
-        <!-- 卡牌学习 -->
         <div class="tab-content active" id="cards-content">
             <div class="card-count" id="card-count"></div>
             <div class="card-area" id="card-area"><div class="no-cards">加载中...</div></div>
             <div class="card-page" id="card-page"></div>
         </div>
 
-        <!-- 词汇管理 -->
         <div class="tab-content" id="manage-content">
             <div class="controls">
                 <input type="text" id="manage-search" placeholder="搜索单词、读音、释义...">
@@ -140,7 +130,6 @@ export function getPageHtml(): string {
             <div class="pagination" id="learning-pagination"></div>
         </div>
 
-        <!-- 添加词汇 -->
         <div class="tab-content" id="add-content">
             <div class="add-section">
                 <h3>手动输入</h3>
@@ -161,7 +150,6 @@ export function getPageHtml(): string {
         </div>
     </div>
 
-    <!-- 详情弹窗 -->
     <div id="detail-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header"><h3>词汇详情</h3><span class="close" onclick="closeDetailModal()">&times;</span></div>
@@ -170,6 +158,7 @@ export function getPageHtml(): string {
     </div>
 
     <div id="toast" class="toast"></div>
+    <div id="loading-overlay" class="loading-overlay"><div class="loading-text">正在添加...</div></div>
     <audio id="audio-player" style="display:none;"></audio>
 
     <script>
@@ -180,15 +169,34 @@ export function getPageHtml(): string {
         let totalCardPages = 1;
         let currentLibWord = null;
 
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        // Tab switching with URL hash
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            const tab = document.querySelector('[data-tab="' + tabName + '"]');
+            if (tab) {
                 tab.classList.add('active');
-                document.getElementById(tab.dataset.tab + '-content').classList.add('active');
-                if (tab.dataset.tab === 'manage') searchLearning();
-            });
+                document.getElementById(tabName + '-content').classList.add('active');
+                window.location.hash = tabName;
+                if (tabName === 'cards') fetchCards(1);
+                else if (tabName === 'manage') searchLearning();
+            }
+        }
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => switchTab(tab.dataset.tab));
         });
+
+        // Restore tab on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.replace('#', '');
+            const validTabs = ['cards', 'manage', 'add'];
+            switchTab(validTabs.includes(hash) ? hash : 'cards');
+        });
+
+        // Loading overlay
+        function showLoading() { document.getElementById('loading-overlay').classList.add('active'); }
+        function hideLoading() { document.getElementById('loading-overlay').classList.remove('active'); }
 
         function showToast(msg, type = 'success') {
             const t = document.getElementById('toast');
@@ -212,8 +220,6 @@ export function getPageHtml(): string {
         }
 
         // ============ Card Learning ============
-        document.addEventListener('DOMContentLoaded', () => { fetchCards(1); });
-
         async function fetchCards(page = 1) {
             currentCardPage = page;
             const res = await fetch(API_BASE + '/api/learning/cards?page=' + page);
@@ -240,8 +246,8 @@ export function getPageHtml(): string {
             document.getElementById('card-page').textContent = '第 ' + currentCardPage + ' 页 / 共 ' + totalCardPages + ' 页';
 
             const audioUrl = word.minio_speak_url || word.speak_url || '';
-            const audioHtml = audioUrl ? '<button class="audio-btn" onclick="event.stopPropagation(); playAudio(this.dataset.url)" data-url="' + escapeHtml(audioUrl) + '">\u25b6 \u64ad\u653e</button>' : '-';
-            const dictHtml = word.dict_url ? '<a href="' + escapeHtml(word.dict_url) + '" target="_blank" class="link" style="color:#4a90d9;" onclick="event.stopPropagation();">\u67e5\u770b</a>' : '-';
+            const audioHtml = audioUrl ? '<button class="audio-btn" onclick="event.stopPropagation(); playAudio(this.dataset.url)" data-url="' + escapeHtml(audioUrl) + '">▶ 播放</button>' : '-';
+            const dictHtml = word.dict_url ? '<a href="' + escapeHtml(word.dict_url) + '" target="_blank" style="color:#4a90d9;" onclick="event.stopPropagation();">查看</a>' : '-';
 
             document.getElementById('card-area').innerHTML =
                 '<div class="card-arrow ' + (currentCardIndex === 0 && currentCardPage <= 1 ? 'disabled' : '') + '" onclick="prevCard()">&#8249;</div>' +
@@ -249,49 +255,39 @@ export function getPageHtml(): string {
                     '<div class="card-face card-front">' +
                         '<div class="card-word">' + escapeHtml(word.word) + '</div>' +
                         '<div class="card-level">' + levelText + '</div>' +
-                        '<div class="card-hint">\u70b9\u51fb\u7ffb\u8f6c\u67e5\u770b\u8be6\u60c5</div>' +
+                        '<div class="card-hint">点击翻转查看详情</div>' +
                     '</div>' +
                     '<div class="card-face card-back">' +
                         '<div class="card-detail">' +
-                            '<div class="row"><span class="label">\u5355\u8bcd</span><span class="value">' + escapeHtml(word.word) + '</span></div>' +
-                            '<div class="row"><span class="label">\u8bfb\u97f3</span><span class="value">' + escapeHtml(word.reading || '-') + '</span></div>' +
-                            '<div class="row"><span class="label">\u7c7b\u578b</span><span class="value">' + typeName + '</span></div>' +
-                            '<div class="row"><span class="label">\u7b49\u7ea7</span><span class="value">' + levelText + '</span></div>' +
-                            '<div class="row"><span class="label">\u8bcd\u6027</span><span class="value">' + escapeHtml(word.word_type_detail || '-') + '</span></div>' +
-                            '<div class="row"><span class="label">\u91ca\u4e49</span><span class="value">' + escapeHtml(word.meaning_cn || '-') + '</span></div>' +
-                            '<div class="row"><span class="label">\u4f8b\u53e5(\u65e5)</span><span class="value">' + escapeHtml(word.example_ja || '-') + '</span></div>' +
-                            '<div class="row"><span class="label">\u4f8b\u53e5(\u4e2d)</span><span class="value">' + escapeHtml(word.example_cn || '-') + '</span></div>' +
-                            '<div class="row"><span class="label">\u8bed\u97f3</span><span class="value">' + audioHtml + '</span></div>' +
-                            '<div class="row"><span class="label">\u767e\u79d1</span><span class="value">' + dictHtml + '</span></div>' +
+                            '<div class="row"><span class="label">单词</span><span class="value">' + escapeHtml(word.word) + '</span></div>' +
+                            '<div class="row"><span class="label">读音</span><span class="value">' + escapeHtml(word.reading || '-') + '</span></div>' +
+                            '<div class="row"><span class="label">类型</span><span class="value">' + typeName + '</span></div>' +
+                            '<div class="row"><span class="label">等级</span><span class="value">' + levelText + '</span></div>' +
+                            '<div class="row"><span class="label">词性</span><span class="value">' + escapeHtml(word.word_type_detail || '-') + '</span></div>' +
+                            '<div class="row"><span class="label">释义</span><span class="value">' + escapeHtml(word.meaning_cn || '-') + '</span></div>' +
+                            '<div class="row"><span class="label">例句(日)</span><span class="value">' + escapeHtml(word.example_ja || '-') + '</span></div>' +
+                            '<div class="row"><span class="label">例句(中)</span><span class="value">' + escapeHtml(word.example_cn || '-') + '</span></div>' +
+                            '<div class="row"><span class="label">语音</span><span class="value">' + audioHtml + '</span></div>' +
+                            '<div class="row"><span class="label">百科</span><span class="value">' + dictHtml + '</span></div>' +
                         '</div>' +
                         '<div class="card-back-actions">' +
-                            '<button class="btn btn-success btn-lg" onclick="event.stopPropagation(); markAsLearned(' + word.id + ')">\u8bbe\u7f6e\u4e3a\u5df2\u5b66\u4e60</button>' +
+                            '<button class="btn btn-success btn-lg" onclick="event.stopPropagation(); markAsLearned(' + word.id + ')">设置为已学习</button>' +
                         '</div>' +
                     '</div>' +
                 '</div></div>' +
                 '<div class="card-arrow ' + (currentCardIndex >= cardList.length - 1 && currentCardPage >= totalCardPages ? 'disabled' : '') + '" onclick="nextCard()">&#8250;</div>';
         }
 
-        function flipCard() {
-            document.getElementById('current-card').classList.toggle('flipped');
-        }
+        function flipCard() { document.getElementById('current-card').classList.toggle('flipped'); }
 
         function prevCard() {
-            if (currentCardIndex > 0) {
-                currentCardIndex--;
-                renderCard();
-            } else if (currentCardPage > 1) {
-                fetchCards(currentCardPage - 1);
-            }
+            if (currentCardIndex > 0) { currentCardIndex--; renderCard(); }
+            else if (currentCardPage > 1) { fetchCards(currentCardPage - 1); }
         }
 
         function nextCard() {
-            if (currentCardIndex < cardList.length - 1) {
-                currentCardIndex++;
-                renderCard();
-            } else if (currentCardPage < totalCardPages) {
-                fetchCards(currentCardPage + 1);
-            }
+            if (currentCardIndex < cardList.length - 1) { currentCardIndex++; renderCard(); }
+            else if (currentCardPage < totalCardPages) { fetchCards(currentCardPage + 1); }
         }
 
         async function markAsLearned(id) {
@@ -303,21 +299,14 @@ export function getPageHtml(): string {
                 });
                 const data = await res.json();
                 if (data.success) {
-                    showToast('\u5df2\u6807\u8bb0\u4e3a\u5df2\u5b66\u4e60');
-                    // Auto advance
+                    showToast('已标记为已学习');
                     cardList.splice(currentCardIndex, 1);
                     if (cardList.length > 0) {
                         if (currentCardIndex >= cardList.length) currentCardIndex = cardList.length - 1;
                         renderCard();
-                    } else {
-                        fetchCards(currentCardPage);
-                    }
-                } else {
-                    showToast('\u64cd\u4f5c\u5931\u8d25', 'error');
-                }
-            } catch (e) {
-                showToast('\u64cd\u4f5c\u5931\u8d25: ' + e.message, 'error');
-            }
+                    } else { fetchCards(currentCardPage); }
+                } else { showToast('操作失败', 'error'); }
+            } catch (e) { showToast('操作失败: ' + e.message, 'error'); }
         }
 
         // ============ Learning Management ============
@@ -339,9 +328,9 @@ export function getPageHtml(): string {
             if (data.success) {
                 const tbody = document.getElementById('learning-list');
                 tbody.innerHTML = data.data.map(item => {
-                    const typeName = { 1: '\u624b\u52a8', 2: '\u8bcd\u6c47', 3: '\u6c49\u5b57' }[item.word_type] || '?';
+                    const typeName = { 1: '手动', 2: '词汇', 3: '汉字' }[item.word_type] || '?';
                     const typeClass = { 1: 'badge-manual', 2: 'badge-vocab', 3: 'badge-kanji' }[item.word_type] || '';
-                    const statusBadge = item.is_learned ? '<span class="badge badge-success">\u5df2\u5b66\u4e60</span>' : '<span class="badge badge-secondary">\u672a\u5b66\u4e60</span>';
+                    const statusBadge = item.is_learned ? '<span class="badge badge-success">已学习</span>' : '<span class="badge badge-secondary">未学习</span>';
                     return '<tr>' +
                         '<td>' + escapeHtml(item.word) + '</td>' +
                         '<td>' + escapeHtml(item.reading || '-') + '</td>' +
@@ -349,17 +338,17 @@ export function getPageHtml(): string {
                         '<td>' + (item.level ? 'N' + item.level : '-') + '</td>' +
                         '<td><span class="badge ' + typeClass + '">' + typeName + '</span></td>' +
                         '<td>' + statusBadge + '</td>' +
-                        '<td><button class="btn btn-primary btn-sm" onclick="showDetail(' + item.id + ')">\u8be6\u60c5</button></td>' +
+                        '<td><button class="btn btn-primary btn-sm" onclick="showDetail(' + item.id + ')">详情</button></td>' +
                         '<td>' +
-                            '<button class="btn btn-sm ' + (item.is_learned ? 'btn-warning' : 'btn-success') + '" onclick="toggleLearned(' + item.id + ',' + (item.is_learned ? 0 : 1) + ')">' + (item.is_learned ? '\u672a\u5b66\u4e60' : '\u5df2\u5b66\u4e60') + '</button> ' +
-                            '<button class="btn btn-danger btn-sm" onclick="deleteLearning(' + item.id + ')">\u5220\u9664</button>' +
+                            '<button class="btn btn-sm ' + (item.is_learned ? 'btn-warning' : 'btn-success') + '" onclick="toggleLearned(' + item.id + ',' + (item.is_learned ? 0 : 1) + ')">' + (item.is_learned ? '未学习' : '已学习') + '</button> ' +
+                            '<button class="btn btn-danger btn-sm" onclick="deleteLearning(' + item.id + ')">删除</button>' +
                         '</td></tr>';
                 }).join('');
                 const p = data.pagination;
                 let ph = '';
-                if (p.page > 1) ph += '<button class="btn btn-default btn-sm" onclick="searchLearning(' + (p.page - 1) + ')">\u4e0a\u4e00\u9875</button>';
+                if (p.page > 1) ph += '<button class="btn btn-default btn-sm" onclick="searchLearning(' + (p.page - 1) + ')">上一页</button>';
                 ph += '<span style="padding:8px;color:#999;">' + p.page + '/' + p.totalPages + ' (' + p.total + ')</span>';
-                if (p.page < p.totalPages) ph += '<button class="btn btn-default btn-sm" onclick="searchLearning(' + (p.page + 1) + ')">\u4e0b\u4e00\u9875</button>';
+                if (p.page < p.totalPages) ph += '<button class="btn btn-default btn-sm" onclick="searchLearning(' + (p.page + 1) + ')">下一页</button>';
                 document.getElementById('learning-pagination').innerHTML = ph;
             }
         }
@@ -370,9 +359,9 @@ export function getPageHtml(): string {
         }
 
         async function deleteLearning(id) {
-            if (!confirm('\u786e\u5b9a\u5220\u9664\uff1f')) return;
+            if (!confirm('确定删除？')) return;
             await fetch(API_BASE + '/api/learning/' + id, { method: 'DELETE' });
-            showToast('\u5220\u9664\u6210\u529f');
+            showToast('删除成功');
             searchLearning(learningPage);
         }
 
@@ -381,25 +370,25 @@ export function getPageHtml(): string {
             const data = await res.json();
             if (!data.success) return;
             const item = data.data;
-            const typeName = { 1: '\u624b\u52a8\u8f93\u5165', 2: '\u8bcd\u6c47', 3: '\u6c49\u5b57' }[item.word_type] || '?';
+            const typeName = { 1: '手动输入', 2: '词汇', 3: '汉字' }[item.word_type] || '?';
             const audioUrl = item.minio_speak_url || item.speak_url || '';
-            const audioBtn = audioUrl ? '<button class="audio-btn" onclick="playAudio(this.dataset.url)" data-url="' + escapeHtml(audioUrl) + '">\u25b6 \u64ad\u653e\u8bed\u97f3</button>' : '-';
-            const dictLink = item.dict_url ? '<a href="' + escapeHtml(item.dict_url) + '" target="_blank" style="color:#4a90d9;">\u67e5\u770b\u767e\u79d1</a>' : '-';
+            const audioBtn = audioUrl ? '<button class="audio-btn" onclick="playAudio(this.dataset.url)" data-url="' + escapeHtml(audioUrl) + '">▶ 播放语音</button>' : '-';
+            const dictLink = item.dict_url ? '<a href="' + escapeHtml(item.dict_url) + '" target="_blank" style="color:#4a90d9;">查看百科</a>' : '-';
             let html = '<table class="detail-table">';
             html += '<tr><td class="label">ID</td><td>' + item.id + '</td></tr>';
-            html += '<tr><td class="label">\u5355\u8bcd</td><td>' + escapeHtml(item.word) + '</td></tr>';
-            html += '<tr><td class="label">\u8bfb\u97f3</td><td>' + escapeHtml(item.reading || '-') + '</td></tr>';
-            html += '<tr><td class="label">\u7c7b\u578b</td><td>' + typeName + '</td></tr>';
-            html += '<tr><td class="label">\u7b49\u7ea7</td><td>' + (item.level ? 'N' + item.level : '-') + '</td></tr>';
-            html += '<tr><td class="label">\u8bcd\u6027</td><td>' + escapeHtml(item.word_type_detail || '-') + '</td></tr>';
-            html += '<tr><td class="label">\u91ca\u4e49</td><td>' + escapeHtml(item.meaning_cn || '-') + '</td></tr>';
-            html += '<tr><td class="label">\u4f8b\u53e5(\u65e5)</td><td>' + escapeHtml(item.example_ja || '-') + '</td></tr>';
-            html += '<tr><td class="label">\u4f8b\u53e5(\u4e2d)</td><td>' + escapeHtml(item.example_cn || '-') + '</td></tr>';
-            html += '<tr><td class="label">\u7528\u6cd5\u8bf4\u660e</td><td>' + escapeHtml(item.usage_note || '-') + '</td></tr>';
-            html += '<tr><td class="label">\u539f\u6587\u8bed\u97f3</td><td>' + audioBtn + '</td></tr>';
-            html += '<tr><td class="label">\u767e\u79d1</td><td>' + dictLink + '</td></tr>';
-            html += '<tr><td class="label">\u72b6\u6001</td><td>' + (item.is_learned ? '<span class="badge badge-success">\u5df2\u5b66\u4e60</span>' : '<span class="badge badge-secondary">\u672a\u5b66\u4e60</span>') + '</td></tr>';
-            html += '<tr><td class="label">\u521b\u5efa\u65f6\u95f4</td><td>' + new Date(item.created_at).toLocaleString() + '</td></tr>';
+            html += '<tr><td class="label">单词</td><td>' + escapeHtml(item.word) + '</td></tr>';
+            html += '<tr><td class="label">读音</td><td>' + escapeHtml(item.reading || '-') + '</td></tr>';
+            html += '<tr><td class="label">类型</td><td>' + typeName + '</td></tr>';
+            html += '<tr><td class="label">等级</td><td>' + (item.level ? 'N' + item.level : '-') + '</td></tr>';
+            html += '<tr><td class="label">词性</td><td>' + escapeHtml(item.word_type_detail || '-') + '</td></tr>';
+            html += '<tr><td class="label">释义</td><td>' + escapeHtml(item.meaning_cn || '-') + '</td></tr>';
+            html += '<tr><td class="label">例句(日)</td><td>' + escapeHtml(item.example_ja || '-') + '</td></tr>';
+            html += '<tr><td class="label">例句(中)</td><td>' + escapeHtml(item.example_cn || '-') + '</td></tr>';
+            html += '<tr><td class="label">用法说明</td><td>' + escapeHtml(item.usage_note || '-') + '</td></tr>';
+            html += '<tr><td class="label">原文语音</td><td>' + audioBtn + '</td></tr>';
+            html += '<tr><td class="label">百科</td><td>' + dictLink + '</td></tr>';
+            html += '<tr><td class="label">状态</td><td>' + (item.is_learned ? '<span class="badge badge-success">已学习</span>' : '<span class="badge badge-secondary">未学习</span>') + '</td></tr>';
+            html += '<tr><td class="label">创建时间</td><td>' + new Date(item.created_at).toLocaleString() + '</td></tr>';
             html += '</table>';
             document.getElementById('detail-content').innerHTML = html;
             document.getElementById('detail-modal').style.display = 'block';
@@ -410,8 +399,8 @@ export function getPageHtml(): string {
         // ============ Add Vocabulary ============
         async function manualTranslate() {
             const word = document.getElementById('manual-word').value.trim();
-            if (!word) { alert('\u8bf7\u8f93\u5165\u5355\u8bcd'); return; }
-            document.getElementById('manual-result').innerHTML = '<div style="color:#999;">\u7ffb\u8bd1\u4e2d...</div>';
+            if (!word) { alert('请输入单词'); return; }
+            showLoading();
             try {
                 const res = await fetch(API_BASE + '/api/learning/manual', {
                     method: 'POST',
@@ -420,13 +409,15 @@ export function getPageHtml(): string {
                 });
                 const data = await res.json();
                 if (data.success) {
-                    document.getElementById('manual-result').innerHTML = '<div class="msg-success">\u6dfb\u52a0\u6210\u529f\uff01\u91ca\u4e49: ' + escapeHtml(data.data.meaning_cn) + ' | \u8bfb\u97f3: ' + escapeHtml(data.data.reading) + '</div>';
+                    document.getElementById('manual-result').innerHTML = '<div class="msg-success">添加成功！释义: ' + escapeHtml(data.data.meaning_cn) + ' | 读音: ' + escapeHtml(data.data.reading) + '</div>';
                     document.getElementById('manual-word').value = '';
                 } else {
-                    document.getElementById('manual-result').innerHTML = '<div class="msg-error">\u6dfb\u52a0\u5931\u8d25: ' + (data.error || 'Unknown') + '</div>';
+                    document.getElementById('manual-result').innerHTML = '<div class="msg-error">添加失败: ' + (data.error || 'Unknown') + '</div>';
                 }
             } catch (e) {
-                document.getElementById('manual-result').innerHTML = '<div class="msg-error">\u6dfb\u52a0\u5931\u8d25: ' + e.message + '</div>';
+                document.getElementById('manual-result').innerHTML = '<div class="msg-error">添加失败: ' + e.message + '</div>';
+            } finally {
+                hideLoading();
             }
         }
 
@@ -445,27 +436,28 @@ export function getPageHtml(): string {
                 renderLibWord();
             } else {
                 currentLibWord = null;
-                document.getElementById('lib-word-display').innerHTML = '<div style="color:#999;padding:20px;">\u6ca1\u6709\u627e\u5230\u672a\u6dfb\u52a0\u7684\u8bcd\u6c47</div>';
+                document.getElementById('lib-word-display').innerHTML = '<div style="color:#999;padding:20px;">没有找到未添加的词汇</div>';
             }
         }
 
         function renderLibWord() {
             if (!currentLibWord) return;
             const w = currentLibWord;
-            const typeName = w.word_type === 'vocab' ? '\u8bcd\u6c47' : '\u6c49\u5b57';
+            const typeName = w.word_type === 'vocab' ? '词汇' : '汉字';
             document.getElementById('lib-word-display').innerHTML =
                 '<div class="lib-word-card">' +
                     '<div class="word">' + escapeHtml(w.word) + '</div>' +
                     '<div class="reading">' + escapeHtml(w.reading || '') + '</div>' +
-                    '<div class="info">' + typeName + ' \u00b7 N' + w.level + '</div>' +
+                    '<div class="info">' + typeName + ' · N' + w.level + '</div>' +
                     '<div class="actions">' +
-                        '<button class="btn btn-success" onclick="addLibWord()">\u6dfb\u52a0\u5230\u5b66\u4e60</button>' +
-                        '<button class="btn btn-default" onclick="fetchLibraryWord()">\u6362\u4e00\u4e2a</button>' +
+                        '<button class="btn btn-success" onclick="addLibWord()">添加到学习</button>' +
+                        '<button class="btn btn-default" onclick="fetchLibraryWord()">换一个</button>' +
                     '</div></div>';
         }
 
         async function addLibWord() {
             if (!currentLibWord) return;
+            showLoading();
             try {
                 const res = await fetch(API_BASE + '/api/learning/add', {
                     method: 'POST',
@@ -474,13 +466,15 @@ export function getPageHtml(): string {
                 });
                 const data = await res.json();
                 if (data.success) {
-                    showToast('\u6dfb\u52a0\u6210\u529f\uff01');
+                    showToast('添加成功！');
                     fetchLibraryWord();
                 } else {
-                    showToast('\u6dfb\u52a0\u5931\u8d25: ' + (data.error || 'Unknown'), 'error');
+                    showToast('添加失败: ' + (data.error || 'Unknown'), 'error');
                 }
             } catch (e) {
-                showToast('\u6dfb\u52a0\u5931\u8d25: ' + e.message, 'error');
+                showToast('添加失败: ' + e.message, 'error');
+            } finally {
+                hideLoading();
             }
         }
     </script>
